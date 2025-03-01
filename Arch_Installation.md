@@ -101,15 +101,39 @@ First we have to identify how many disks we have, how many partitions each disk 
 ``` bash
 fdisk -l
 ```
-this will list all the available disks.
+this will list all the available disks. Here we used ```fdisk```, which is a disk management utility. The ```-l``` means we are requesting ```fdisk``` to list all the available storage devices.
 
 Your screen may look like this:
 
 ![image](https://github.com/user-attachments/assets/72212654-ce1d-4305-9670-8b4e1c47c045)
 
-The partition naming in linux is as follows: ```/dev/<name-of-disk>```
-This "name of disk" can be ```sd<the order in which they are found>```, ```sd``` in general used to refer to as a storage device, ```sda``` means this device was found first. Similarly ```sdb``` means this device was found second and so on. The order follows the alphabetic order. 
-OR
-the "name of disk" can be ```nvme0n1```,```nvme0n2```,```nvme0n3``` and so on. 
+The partition naming in linux is as follows: ```/dev/<name-of-disk>```.   
+This "name of disk" can be ```sd<the order in which they are found>```, ```sd``` in general used to refer to as a storage device, ```sda``` means this device was found first. Similarly ```sdb``` means this device was found second and so on. The order follows the alphabetic order.    
+OR   
+the "name of disk" can be ```nvme0n1```,```nvme0n2```,```nvme0n3``` and so on.    
 
-This totally depends on your system. How it identifies your storage device. Usually ```nvme0n1``` are SSD devices and ```SDA``` are HDD devices. To make sure you are using your correct storage device, your can compare the size of the storage devices with data you collected in the prerequisits step.
+This totally depends on your system. How it identifies your storage device. Usually ```nvme0n1``` are SSD devices and ```SDA``` are HDD devices. To make sure you are using your correct storage device, your can compare the size of the storage devices with data you collected in the prerequisits step.   
+
+Now select the desired storage device with the following commnand:
+```bash
+fdisk /dev/<name-of-your-disk>
+```
+- This will open the fdisk utility to perform operations only on the selected storage device.
+
+Entering ```p``` will list all the available partitions on the selected disk.   
+Entering ```n``` will create a new partition on the selected disk.   
+Entering ```t``` will change the type of the selected partition.   
+Entering ```d``` will delete the selected partition.   
+
+We will be needing mainly 3 partitons apart from that you can create as many partitions as you want.
+
+The main 3 partitions should look like this:
+
+![image](https://github.com/user-attachments/assets/8166d115-6483-4093-8654-f54944b6661d)
+
+We want: 
+- 1st partition to always be of type ```EFI System```, recommended size of this partition is ```550 MB```. This partition will be storing all the applications which will be executed as soon as you turn on your pc. Notice when you use a Windows pc, you get a loading icon with windows logo before the windows itself is loaded. The application I am talking about is referred to as a bootloader. The function of a bootloader is to locate where the OS is installed and load it. We will be using Linux bootloader known as ```grub```. Boot loader executes as soon as the pc starts and is stored in this EFI partition. This partiton is also referred as the boot partition. 
+
+- 2nd partition to always be of type ```Linux Swap```, recommended size of this partition is ```<your size of total RAM> x 2```. In any operating system, RAM management is a must. There can be times when RAM can be completely filled, during such situations a system crash can happen. Luckily each OS has its own way to counter this situation. Windows have paging system and Linux has swap system. Basically Linux automatically moves those processes running in the background which do not require your immediate attention from RAM to swap partition, resulting free space in RAM. 
+
+- 3rd partition to always be of type ```
