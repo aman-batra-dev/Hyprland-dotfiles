@@ -48,7 +48,7 @@ We will use a utility known as iwctl to connect to out wifi network. Internet ac
 
 Type the following commands in your terminal.
 ``` bash
-iwtcl
+iwctl
 ```
 - This will open "iwd".
 - Now we have to find our network adapter name
