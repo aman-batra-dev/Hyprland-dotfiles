@@ -18,6 +18,8 @@ Some advantages of using Arch over any other OS (My opinion):
 Disadvantages:
 1. Just like in real life, freedom in OS customization requires you to learn those things, understand their downsides and take your steps wisely.
 2. Once you get comfortable with Arch, you won't be hopping to any other distro or OS.
+## Prerequisits
+These are just steps taken to make sure you don't end up messing up the installation. Go to your disk manager, and note down all the partitons and their size.
 
 ## Creating a bootable USB
 Before diving into installation, we have to create an installation medium. By installation medium I mean an external device using which we will install Arch on our system's drive. We will achieve this using a USB pendrive.  
@@ -72,11 +74,11 @@ station <name-of-the-wifi-adapter> connect <name-of-your-wifi-network>
 ```bash
 timedatectl set-ntp true
 ```
-- In general any command that has 'ctl' at its end then that command is a service.
+- In general any command that has 'ctl' at its end is a service.
 - In the above case timedatectl is a service to manage time and date on your machine. The option "ntp" refers to Network Time Protocol. It is there to auto update your system's time through internet.
 
 ### Updating the mirrorlist
-Mirror list are the urls or in layman "internet links" from which Arch's package manager "pacman" downloads all the packages. Unlike Windows users don't have to go to specific sites to download. With one command pacman searches all the official databases to download the desired software. We will discuss more about pacman and its usage in later sections.
+Mirror list are the urls or in layman "internet links" from which Arch's package manager "pacman" downloads all the packages. Unlike Windows, Arch users don't have to go to specific sites to download. With one command pacman searches all the official databases to download the desired software. We will discuss more about pacman and its usage in later sections.
 
 Lets update the mirror list to select the fastest URL available for your region.
 ```bash
@@ -93,10 +95,21 @@ nano /etc/pacman.conf
 This is the most crucial step and requires your utmost attention.
 We will be creating isolated sections on your system storage device, the goal of these isolated sections is to isolate some crucial system files from one another.
 
-Let Begin:
+Lets Begin:
 
 First we have to identify how many disks we have, how many partitions each disk have and on which disk we desire to install our Arch Linux.
 ``` bash
 fdisk -l
 ```
-this will list all the available disk
+this will list all the available disks.
+
+Your screen may look like this:
+
+![image](https://github.com/user-attachments/assets/72212654-ce1d-4305-9670-8b4e1c47c045)
+
+The partition naming in linux is as follows: ```/dev/<name-of-disk>```
+This "name of disk" can be ```sd<the order in which they are found>```, ```sd``` in general used to refer to as a storage device, ```sda``` means this device was found first. Similarly ```sdb``` means this device was found second and so on. The order follows the alphabetic order. 
+OR
+the "name of disk" can be ```nvme0n1```,```nvme0n2```,```nvme0n3``` and so on. 
+
+This totally depends on your system. How it identifies your storage device. Usually ```nvme0n1``` are SSD devices and ```SDA``` are HDD devices. To make sure you are using your correct storage device, your can compare the size of the storage devices with data you collected in the prerequisits step.
