@@ -1,7 +1,7 @@
 # Your friendly guide to Arch Linux Installation
 
 ## Introduction
-Disclaimer: Installing an OS most likely causes data loss on your system. It is highly recommended to backup your data into an external storage device.
+Disclaimer: Installing an OS will most likely cause data loss on your system. It is highly recommended to backup your data into an external storage device.
 
 Objective of this guide is make Arch as most beginer friendly as it can be providing an easier learning experience to its readers.
 
