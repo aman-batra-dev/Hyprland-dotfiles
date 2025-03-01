@@ -19,7 +19,7 @@ Disadvantages:
 1. Just like in real life, freedom in OS customization requires you to learn those things, understand their downsides and take your steps wisely.
 2. Once you get comfortable with Arch, you won't be hopping to any other distro or OS.
 
-#### Creating a bootable USB
+## Creating a bootable USB
 Before diving into installation, we have to create an installation medium. By installation medium I mean an external device using which we will install Arch on our system's drive. We will achieve this using a USB pendrive.  
 
 **Caution**: Your USB pendrive will be formated in this procedure. Make sure to backup your data.
@@ -34,5 +34,51 @@ Before diving into installation, we have to create an installation medium. By in
 8. Boot into your USB pendrive.
 9. Select Arch Iso to begin the installation process.
 
-#### Installation for the base linux
+## Installation for the base linux
 This section will cover up installing the necessary packages that are required to run your Arch. Keep in mind this section will not cover any gui or beutification aspect as those will be covered in further sections. The reason for the division of these sections is to give user a clear picture of each and every component they are going to install. 
+
+Your screen may now look like this:
+
+![image](https://github.com/user-attachments/assets/7ca72ee0-fbe4-456e-b3f8-fc0b99b2edd3)
+
+### Connecting to Wifi
+We will use a utility known as iwctl to connect to out wifi network. Internet access is very crucial during the installation process. If you are connected to the ethernet, you can skip this step entirely.
+
+Type the following commands in your terminal.
+``` bash
+iwtcl
+```
+- This will open "iwd".
+- Now we have to find our network adapter name
+``` bash
+device list
+```
+- We have to tell the system to scan for avialable networks using the specified wifi adapter. Note: anthing that is in < > these brackets is a variable and is to filled according to your device specification. 
+``` bash
+station <name-of-the-wifi-adapter> scan
+```
+- Now to display the list of available networks.
+``` bash
+station <name-of-the-wifi-adapter> get-networks
+```
+- To connect to a network we will do the following:
+``` bash
+station <name-of-the-wifi-adapter> connect <name-of-your-wifi-network>
+``` 
+- You will asked to enter your wifi password, once done a little arrow will appear along with the name of your wifi network.
+- Press ``` Ctrl+D``` to exit from the wifi utility. This will not disconnect you from your wifi.
+
+### Setting the time
+```bash
+timedatectl set-ntp true
+```
+- In general any command that has 'ctl' at its end then that command is a service.
+- In the above case timedatectl is a service to manage time and date on your machine. The option "ntp" refers to Network Time Protocol. It is there to auto update your system's time through internet.
+
+### Updating the mirrorlist
+Mirror list are the urls or in layman "internet links" from which Arch's package manager "pacman" downloads all the packages. Unlike Windows users don't have to go to specific sites to download. With one command pacman searches all the official databases to download the desired software. We will discuss more about pacman and its usage in later sections.
+
+Lets update the mirror list to select the fastest URL available for your region.
+```bash
+sudo reflector --age 6 --latest 200 --fastest 20 --threads 20 --sort rate --protocol https --verbose --save /etc/pacman.d/mirrorlist
+```
