@@ -136,4 +136,17 @@ We want:
 
 - 2nd partition to always be of type ```Linux Swap```, recommended size of this partition is ```<your size of total RAM> x 2```. In any operating system, RAM management is a must. There can be times when RAM can be completely filled, during such situations a system crash can happen. Luckily each OS has its own way to counter this situation. Windows have paging system and Linux has swap system. Basically Linux automatically moves those processes running in the background which do not require your immediate attention from RAM to swap partition, resulting free space in RAM. 
 
-- 3rd partition to always be of type ```
+- 3rd partition to always be of type ```Linux Filesystem```, minimum recommended size ```100GB```. This will be our final partition which will contain our OS. Each and every OS and user files will be stored in this partition. This partition can be of any size you want. Total size for Arch depends on what components you are installing. You can install the most ligthweight components or most heavy components depending on your needs. On average Arch takes max upto 7-8 GB of storage.
+
+To create these partitions:   
+- List all the available partitions.
+- Delete all the existing partitions one by one.
+- Create 3 new partitions using ```n```. For each partiton, you will be asked what should be its parition type: set the parition type as primary, first sector: keep first sector of each partition to be default, and for the last sector enter the size as follows: ```+<Amount><Units>```. For example, to create a partition of 8 GB, you will leave the first sector as it is, and in last sector you will enter ```+8G```. Arch will auto-calculate the last sector depending on the size entered. Similarly for a 550 MB partiton, last sector will be ```+550M```. If ```fdisk``` asks to format a signature just press ```y```. We want are partitions to be totally blank.
+   
+- Now list all the partitions, to check if all the necessary partitions are made or not. You will notice each of them is now having the type as ```Linux Filesystem```, which doesn't match with our required types. We are going to fix these types now.
+- Press ```t``` to change the partition type. Select the partition number you want to change the type for. And then you will be asked for the type ID. 
+Partition ID chart:
+- ```EFI System -> 1```
+- ```Linux Swap -> 19```            
+   
+For example we want first partition to be an EFI System, so we will input ```t``` and it will ask us the partition number. We will input ```1``` to select the first partiton. Then it will ask the type for that partition, we will input '''1''' to select ```EFI System``` as our option. Similarly for Swap Partition, ```Partition Number: 2``` and ```Type ID: 19```.
