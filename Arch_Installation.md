@@ -123,7 +123,8 @@ fdisk /dev/<name-of-your-disk>
 Entering ```p``` will list all the available partitions on the selected disk.   
 Entering ```n``` will create a new partition on the selected disk.   
 Entering ```t``` will change the type of the selected partition.   
-Entering ```d``` will delete the selected partition.   
+Entering ```d``` will delete the selected partition.
+Entering ```w``` will write the changes.  
 
 We will be needing mainly 3 partitons apart from that you can create as many partitions as you want.
 
@@ -150,3 +151,7 @@ Partition ID chart:
 - ```Linux Swap -> 19```            
    
 For example we want first partition to be an EFI System, so we will input ```t``` and it will ask us the partition number. We will input ```1``` to select the first partiton. Then it will ask the type for that partition, we will input '''1''' to select ```EFI System``` as our option. Similarly for Swap Partition, ```Partition Number: 2``` and ```Type ID: 19```.
+
+- Press ```w``` to save changes and exit.
+
+Now we have to create filesystems for these partitions. You might be confused by now. We just created some 
