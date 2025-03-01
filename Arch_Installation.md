@@ -137,7 +137,7 @@ We want:
 
 - 2nd partition to always be of type ```Linux Swap```, recommended size of this partition is ```<your size of total RAM> x 2```. In any operating system, RAM management is a must. There can be times when RAM can be completely filled, during such situations a system crash can happen. Luckily each OS has its own way to counter this situation. Windows have paging system and Linux has swap system. Basically Linux automatically moves those processes running in the background which do not require your immediate attention from RAM to swap partition, resulting free space in RAM. 
 
-- 3rd partition to always be of type ```Linux Filesystem```, minimum recommended size ```100GB```. This will be our final partition which will contain our OS. Each and every OS and user files will be stored in this partition. This partition can be of any size you want. Total size for Arch depends on what components you are installing. You can install the most ligthweight components or most heavy components depending on your needs. On average Arch takes max upto 7-8 GB of storage.
+- 3rd partition to always be of type ```Linux Filesystem```, minimum recommended size ```100GB```. This will be our final partition which will contain our OS. Each and every OS and user files will be stored in this partition. This partition can be of any size you want. Total size for Arch depends on what components you are installing. You can install the most ligthweight components or most heavy components depending on your needs. On average Arch takes max upto 7-8 GB of storage. This parition is also referred as the ```Root Partition```.
 
 To create these partitions:   
 - List all the available partitions.
@@ -154,4 +154,14 @@ For example we want first partition to be an EFI System, so we will input ```t``
 
 - Press ```w``` to save changes and exit.
 
-Now we have to create filesystems for these partitions. You might be confused by now. We just created some 
+Now we have to create filesystems for these partitions.   
+
+You might be confused by now. We just created three partitions, each of some specific use. Why do we have to create a filesystem now? Haven't we already specified the types of partitions?
+
+These technical terms may sound overwhelming, but in reality they are very simple. The partitions stores the data in them, the type of the partition specifies what type of data will this partition will store and the filesystem specifies how this data will be stored in its respective partition. Filesystems can be of various types. Windows supports ```NTFS```, ```FAT```, ```FAT32``` and ```extFAT``` format, whereas Linux systems works with ```ext4```, ```btrfs```, ```NTFS```, ```FAT 32``` and many more. 
+
+We will be using these filesystems for our partitions:
+- EFI Partition: ````FAT32````
+- Swap Partition: ```Swap```
+- Root Parition: ```BTRFS```
+
