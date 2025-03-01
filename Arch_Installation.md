@@ -82,3 +82,21 @@ Lets update the mirror list to select the fastest URL available for your region.
 ```bash
 sudo reflector --age 6 --latest 200 --fastest 20 --threads 20 --sort rate --protocol https --verbose --save /etc/pacman.d/mirrorlist
 ```
+
+By default pacman allow downloading only one package at a time, we can introduce parallel downloading which will significatly reduce the downloading time.
+```bash
+nano /etc/pacman.conf
+```
+- This will open the GNU Nano text editor. Scroll down to line ```#ParallelDownloads = 5``` and remove the # from it. Resulting will look like this ```ParallelDownloads = 5```. # before any statement means we have commented that statement, in simpler terms that statement will only be identified as user message, not a runnable command. To save the changes press ```Ctrl + S```, and to exit the Nano ```Ctrl + X```.
+
+### Disk Partitioning
+This is the most crucial step and requires your utmost attention.
+We will be creating isolated sections on your system storage device, the goal of these isolated sections is to isolate some crucial system files from one another.
+
+Let Begin:
+
+First we have to identify how many disks we have, how many partitions each disk have and on which disk we desire to install our Arch Linux.
+``` bash
+fdisk -l
+```
+this will list all the available disk
