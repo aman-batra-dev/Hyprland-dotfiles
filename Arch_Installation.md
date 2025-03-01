@@ -3,7 +3,7 @@
 ## Introduction
 Disclaimer: Installing an OS will most likely cause data loss on your system. It is highly recommended to backup your data into an external storage device.
 
-Objective of this guide is make Arch as most beginer friendly as it can be providing an easier learning experience to its readers.
+Objective of this guide is to make Arch as most beginer friendly as it can be, providing an easier learning experience to its readers.
 
 #### Why do you want to install Arch?
 If you are a total beginner to Linux in general, you might be facing a dilemma, that Should you switch to Arch? Will it break your system to no return? Or You might be intimidated by the complexity of a Linux OS in general. 
