@@ -225,8 +225,8 @@ We are finally done with any heavy tasks, now it time to install basic Arch on t
 ```bash
 pacstrap /mnt base linux linux-firmware nano btrfs-progs
 ```
-- pacstrap is the installer we are using
-- mnt is the location where we want to install our packages
+- ```pacstrap``` is the installer we are using
+- ```mnt``` is the location where we want to install our packages
 - rest are the packages we want to install
 - Details of each package:
   - ```Base```: This installs the essential system utilities required for Arch Linux to function.
@@ -234,3 +234,40 @@ pacstrap /mnt base linux linux-firmware nano btrfs-progs
   - ```linux-firmware```: Basic software for hardware components, such as wifi card, bluetooth, etc
   - ```nano```: This is a text editor, we will be using to edit some text files.
   - ```btrf-progs```: This installs utilities for managing the Btrfs filesystem.
+
+## Generating the fstab
+Fstab is the file which will automatically do the mounting for you as soon as the system boots. So you don't have to do anything manually.
+
+```bash
+genfstab -U /mnt >> /mnt/etc/fstab
+```
+
+## Temporary accessing the System OS through USB Os.
+
+```bash
+arch-chroot /mnt
+```
+- Now we are in our OS installed in our system's storage device. Every command we run now will affect our system's OS not the USB OS.
+
+### Setting the time and date
+
+```bash
+timedatectl set-timezeone <your timezone>
+
+hwclock --systohc
+```
+
+### Setting up the locale
+
+```bash
+nano /etc/locale.gen
+```
+- Uncomment the line: ```en_IN.UTF-8``` or something similar depending upon your region.
+```bash
+locale-gen
+```
+```bash
+echo LANG=en_US.UTF-8 >> /etc/locale.conf
+```
+
+### Network configuration
