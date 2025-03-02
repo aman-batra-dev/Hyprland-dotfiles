@@ -235,6 +235,8 @@ pacstrap /mnt base linux linux-firmware nano btrfs-progs
   - ```nano```: This is a text editor, we will be using to edit some text files.
   - ```btrf-progs```: This installs utilities for managing the Btrfs filesystem.
 
+Note: If your are using AMD processor your have to additionally install ```amd-ucode```. 
+
 ## Generating the fstab
 Fstab is the file which will automatically do the mounting for you as soon as the system boots. So you don't have to do anything manually.
 
@@ -271,3 +273,34 @@ echo LANG=en_US.UTF-8 >> /etc/locale.conf
 ```
 
 ### Network configuration
+
+```bash
+echo <hostname> >> /etc/hostname 
+```
+- Example: ```echo ArchLinux >> /etc/hostname```
+- Your <hostname> can be anything you like.
+
+```bash
+nano /etc/hosts
+```
+- This will open the nanno editor. Add the following into the opened file.
+  - ```bash
+    127.0.0.1	localhost
+    ::1		localhost
+    127.0.1.1	<hostname>.localdomain <hostname>
+    ```
+### Setting the root password
+
+```bash
+passwd
+```
+
+### Editing the pacman config to enable parallel downloads
+We earlier did this step but that was for the pacman stored on our USB instance of Arch. Now we will be doing it for our System OS.
+Edit the /etc/pacman.conf and uncomment the ParallelDownloads line.
+
+### Installing packages
+
+```bash
+pacman -S grub grub-btrfs efibootmgr base-devel linux-headers networkmanager network-manager-applet wpa_supplicant os-prober mtools dosfstools git reflector bluez bluez-utils xdg-utils xdg-user-dirs --needed
+```
