@@ -305,3 +305,39 @@ Edit the /etc/pacman.conf and uncomment the ParallelDownloads line.
 pacman -S grub grub-btrfs efibootmgr base-devel linux-headers networkmanager network-manager-applet wpa_supplicant os-prober mtools dosfstools git reflector bluez bluez-utils xdg-utils xdg-user-dirs --needed
 ```
 
+### Generating Initramfs file
+As we have previously discussed how your operating system loads as soon as you power on your pc. We discussed first the bootloader is loaded, then the bootloader loacates and loads the OS.
+But in between your bootloader and your Linux OS there is one more file which is loaded, it is the initramfs. Initramfs to understand laymanly is a small temporary root filesystem loaded into memory at boot before switching to the real root filesystem. Your OS stored in this real root filesystem. Revising the workflow:   
+
+```pc starts-> Bootloader is loaded -> BootFSoader loades initramfs -> initramfs loades root filesystem -> OS is loaded```.
+
+To generate this initramfs:
+```bash
+nano /etc/mkinitcpio.conf
+```
+- this will open the config file for mkinitcpio which will be used to generate the initramfs file
+- Find the ```MODULES``` block and add ```btrfs``` to it. This will look like this:  ```MODULES=(btrfs)```.
+- Save and exit
+
+```bash
+mkinitcpio -p linux
+```
+- This will generate the initramfs file
+
+### Installing the bootloader
+
+```bash
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch
+```
+- This file will install bootloader. Name of our bootloader is ```grub```.
+
+```bash
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+- This will create a config file for grub.
+
+### Adding the user account
+
+```bash
+useradd -mG wheel,audio,video,storage,power <name of the user>
+```
