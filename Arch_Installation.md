@@ -161,7 +161,48 @@ You might be confused by now. We just created three partitions, each of some spe
 These technical terms may sound overwhelming, but in reality they are very simple. The partitions stores the data in them, the type of the partition specifies what type of data will this partition will store and the filesystem specifies how this data will be stored in its respective partition. Filesystems can be of various types. Windows supports ```NTFS```, ```FAT```, ```FAT32``` and ```extFAT``` format, whereas Linux systems works with ```ext4```, ```btrfs```, ```NTFS```, ```FAT 32``` and many more. 
 
 We will be using these filesystems for our partitions:
-- EFI Partition: ````FAT32````
+- EFI Partition: ```FAT32```
 - Swap Partition: ```Swap```
 - Root Parition: ```BTRFS```
 
+The procedure will be as follows:
+- For EFI Partition:
+     ```bash
+     mkfs.fat -F 32 /dev/<name-of-the-boot-partition>
+     ```
+- For Swap Partition:
+     ```bash
+     mkswap /dev/<name-of-the-swap-partition>
+     swapon /dev/<name-of-the-swap-partition>
+     ```
+- For Root Partition:
+     ```bash
+     mkfs.btrfs /dev/<name-of-the-root-partition>
+     ```
+We are done with creating our paritions and their filesystems. Now we have to load these partitions so that we can begin installing our packages into them.   
+Before that we must understand a little more about storage systems. Partitions are by default not accessible until they are loaded by the OS. This loading of parition is called mounting.   
+Lets take an example: I created a drive to store all my games in my Windows system. By default Windows mount any drive as soon as one is detected. So I don't have to mount this partition by myself. Does this make Linux's manual mounting irrelevant? the answer is no. Linux allows their users to mount a parition manually or automatically.
+
+Mounting Partitions:
+- ```bash
+   mount /dev/<root-parition> /mnt
+  ```
+-  ```bash
+   btrfs su cr /mnt/@
+   btrfs su cr /mnt/@home 
+   btrfs su cr /mnt/@var
+   btrfs su cr /mnt/@opt
+   btrfs su cr /mnt/@tmp
+   umount /mnt
+   ```
+- ```bash
+   mount -o noatime,commit=120,compress=zstd,subvol=@ /dev/<root-partition> /mnt
+   mkdir /mnt/{boot,home,var,opt,tmp}
+   mount -o noatime,commit=120,compress=zstd,space_cache,subvol=@home /dev/nvme0n1p3 /mnt/home
+   mount -o noatime,commit=120,compress=zstd,space_cache,subvol=@opt /dev/nvme0n1p3 /mnt/opt
+   mount -o noatime,commit=120,compress=zstd,space_cache,subvol=@tmp /dev/nvme0n1p3 /mnt/tmp 
+   mount -o subvol=@var /dev/nvme0n1p3 /mnt/var
+  ```
+- ```bash
+  mount /dev/nvme0n1p1 /mnt/boot
+  ```
