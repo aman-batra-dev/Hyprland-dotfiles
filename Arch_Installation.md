@@ -304,3 +304,4 @@ Edit the /etc/pacman.conf and uncomment the ParallelDownloads line.
 ```bash
 pacman -S grub grub-btrfs efibootmgr base-devel linux-headers networkmanager network-manager-applet wpa_supplicant os-prober mtools dosfstools git reflector bluez bluez-utils xdg-utils xdg-user-dirs --needed
 ```
+
