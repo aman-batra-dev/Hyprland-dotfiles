@@ -43,6 +43,8 @@ Your screen may now look like this:
 
 ![image](https://github.com/user-attachments/assets/7ca72ee0-fbe4-456e-b3f8-fc0b99b2edd3)
 
+Currently we have loaded an instance of Arch from our USB. This instance is an OS in itself. We will be using this OS installed on our USB pendrives to install the Arch on our system's storage device. 
+
 ### Connecting to Wifi
 We will use a utility known as iwctl to connect to out wifi network. Internet access is very crucial during the installation process. If you are connected to the ethernet, you can skip this step entirely.
 
@@ -180,13 +182,16 @@ The procedure will be as follows:
      mkfs.btrfs /dev/<name-of-the-root-partition>
      ```
 We are done with creating our paritions and their filesystems. Now we have to load these partitions so that we can begin installing our packages into them.   
-Before that we must understand a little more about storage systems. Partitions are by default not accessible until they are loaded by the OS. This loading of parition is called mounting.   
-Lets take an example: I created a drive to store all my games in my Windows system. By default Windows mount any drive as soon as one is detected. So I don't have to mount this partition by myself. Does this make Linux's manual mounting irrelevant? the answer is no. Linux allows their users to mount a parition manually or automatically.
+Before that we must understand a little more about storage systems. Partitions are by default not accessible until they are loaded by the OS. This loading of a partition is called mounting.   
+Lets take an example: I created a drive to store all my games in my Windows system. By default Windows mount any drive as soon as one is detected. So I don't have to mount this partition by myself. Does this make Linux's manual mounting irrelevant? the answer is no. Linux allows their users to mount a parition manually or automatically. Its all about how you want your system to behave.
 
 Mounting Partitions:
 - ```bash
-   mount /dev/<root-parition> /mnt
+  mount /dev/<root-parition> /mnt
   ```
+  
+  - As we know every command we ran till yet, was executed in the instance of Arch installed on the USB Pendrive. Hence we mount our root partition to ```mnt``` directory in our USB pendrive. What it means is if we want to access files inside the root partition we can simply access them by just opening the ```mnt``` folder.
+  
 -  ```bash
    btrfs su cr /mnt/@
    btrfs su cr /mnt/@home 
@@ -195,14 +200,37 @@ Mounting Partitions:
    btrfs su cr /mnt/@tmp
    umount /mnt
    ```
+   - Now we are creating subvolumes in our root partition. The goal of these subvolumes is to isolate each of the sections of our OS. ```Home``` is where user files are installed, this is much similar to ```ThisPC``` in Windows. ```Var``` is used to store log files. ```Opt``` is used to store optional third party apps. ```Tmp``` is used to store temporary files.
+
+
+Mounting the subvolumes:
+
 - ```bash
-   mount -o noatime,commit=120,compress=zstd,subvol=@ /dev/<root-partition> /mnt
-   mkdir /mnt/{boot,home,var,opt,tmp}
-   mount -o noatime,commit=120,compress=zstd,space_cache,subvol=@home /dev/nvme0n1p3 /mnt/home
-   mount -o noatime,commit=120,compress=zstd,space_cache,subvol=@opt /dev/nvme0n1p3 /mnt/opt
-   mount -o noatime,commit=120,compress=zstd,space_cache,subvol=@tmp /dev/nvme0n1p3 /mnt/tmp 
-   mount -o subvol=@var /dev/nvme0n1p3 /mnt/var
+  mount -o noatime,commit=120,compress=zstd,subvol=@ /dev/<root-partition> /mnt
+  mkdir /mnt/{boot,home,var,opt,tmp}
+  mount -o noatime,commit=120,compress=zstd,subvol=@home /dev/<root-partition> /mnt/home
+  mount -o noatime,commit=120,compress=zstd,subvol=@opt /dev/<root-partition> /mnt/opt
+  mount -o noatime,commit=120,compress=zstd,subvol=@tmp /dev/<root-partition> /mnt/tmp 
+  mount -o subvol=@var /dev/<root-partition> /mnt/var
   ```
+
+Mounting the boot partition:
 - ```bash
   mount /dev/nvme0n1p1 /mnt/boot
   ```
+
+## Installing the base system
+We are finally done with any heavy tasks, now it time to install basic Arch on the partitions we created and mounted.
+
+```bash
+pacstrap /mnt base linux linux-firmware nano btrfs-progs
+```
+- pacstrap is the installer we are using
+- mnt is the location where we want to install our packages
+- rest are the packages we want to install
+- Details of each package:
+  - ```Base```: This installs the essential system utilities required for Arch Linux to function.
+  - ```linux```: This installs the kernel, kernel is the main bridge between software and hardware components. It is one of the most important component. If you want to do gaming on Arch use ```linux-zen``` instead of ```linux```.
+  - ```linux-firmware```: Basic software for hardware components, such as wifi card, bluetooth, etc
+  - ```nano```: This is a text editor, we will be using to edit some text files.
+  - ```btrf-progs```: This installs utilities for managing the Btrfs filesystem.
