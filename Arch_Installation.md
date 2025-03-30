@@ -336,8 +336,30 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ```
 - This will create a config file for grub.
 
-### Adding the user account
+### Configuring the user account
 
 ```bash
 useradd -mG wheel,audio,video,storage,power <name of the user>
 ```
+- This will create a user with specified permissions
+- Now we want to assign a password to this user
+
+```bash
+passwd <name of the user>
+```
+- To make sure our user can run sudo commands we uncomment this line ```%wheel ALL=(ALL) ALL``` in
+```bash
+nano /etc/sudoers
+```
+- Sudo is basically your "run as admin" to any command.
+
+
+
+
+
+
+
+
+
+
+
