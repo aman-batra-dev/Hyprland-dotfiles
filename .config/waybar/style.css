@@ -97,7 +97,7 @@ padding-left : 10px;
 .modules-right,
 .modules-left,
 .modules-center {
-  background-color: @base;
+  background-color: #0f1017;
   border-radius: 15px;
 }
 

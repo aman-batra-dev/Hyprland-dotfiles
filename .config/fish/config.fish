@@ -1,7 +1,7 @@
 cd ~
 #starship init fish | source
 
-alias hyprconfig 'nano ~/.config/hypr/hyprland.conf'
+alias hyprconfig 'vim ~/.config/hypr/hyprland.conf'
 
 if status is-login
     contains /usr/share/dotnet $PATH
