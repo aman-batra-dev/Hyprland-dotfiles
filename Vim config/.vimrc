@@ -6,6 +6,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Syntax checking
 Plug 'dense-analysis/ale'
 
+Plug 'OmniSharp/omnisharp-vim'
+
 " Syntax Highlighter
 Plug 'sheerun/vim-polyglot'
 
